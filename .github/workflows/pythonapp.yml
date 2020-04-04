@@ -20,7 +20,9 @@ jobs:
 #       uses: actions/setup-python@v1
 #       with:
 #         python-version: 3.7
-    - name: 🔧 Set up Pipenv
+    - name: 🔧 Set up Java   (Java 1.8)
+      uses: olafurpg/setup-scala@v6
+    - name: 🔧 Set up Pipenv (Python 3.7)
       uses: peaceiris/actions-pipenv@3.7
       with:
             args: sync

@@ -36,10 +36,10 @@ jobs:
     - name: 📋 Test with pytest
       run: pipenv run test
     - name: 📦 Create Commit
-      if: github.actor != "GrammarNazi[bot]" && github.event_name=="push"
+      if: github.actor != "Grammar[bot]" && github.event_name=="push"
       run: |
-        git config --local user.email "GrammarNazi[bot]@noreply.github.com"
-        git config --local user.name "GrammarNazi[bot]"
+        git config --local user.email "Grammar[bot]@noreply.github.com"
+        git config --local user.name "Grammar[bot]"
         git commit -m "chore: update antlr grammar" -a
     - name: 📤 Push changes
       if: github.event_name=="push"

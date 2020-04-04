@@ -7,4 +7,6 @@ punittest==0.1.12
 setuptools-antlr==0.4.0
 six==1.14.0
 traceback2==1.4.0
-unittest2==1.1.0
+
+pytest~=5.4.1
+setuptools~=46.1.3

@@ -4,6 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pytest = "~=5.4.1"
 
 [packages]
 antlr4-python3-runtime = "==4.7.1"
@@ -14,7 +15,6 @@ punittest = "==0.1.12"
 setuptools-antlr = "==0.4.0"
 six = "==1.14.0"
 traceback2 = "==1.4.0"
-unittest2 = "==1.1.0"
 et_xmlfile = "==1.0.1"
 
 [requires]

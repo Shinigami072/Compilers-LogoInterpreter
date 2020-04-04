@@ -1,9 +1,10 @@
 Logo Interpreter
 ================
 
-Development Setup Instructions:
+![Python application](https://github.com/Shinigami072/Compilers-LogoInterpreter/workflows/Python%20application/badge.svg)
 
-1. Install pipenv,antlr on your system
-2. In the root of the project run `pipenv install`
+## Development Setup Instructions:
+
+1. Install pipenv,java 11(antlr) on your system
+2. In the root of the project run `pipenv sync`
 3. Open the project in your IDE and make sure a virtual environment was created - with python 3.7
-4. run setup.py antlr - to generate the parsers

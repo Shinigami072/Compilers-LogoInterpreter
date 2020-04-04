@@ -35,15 +35,15 @@ jobs:
       run: pipenv run lint
     - name: 📋 Test with pytest
       run: pipenv run test
-    - name: 📦 Create Commit
-      if: (! contains(github.actor,'Grammar[bot]')) && github.event_name=='push'
-      run: |
-        git config --local user.email "Grammar[bot]@noreply.github.com"
-        git config --local user.name "Grammar[bot]"
-        git status
-        git commit -m "chore: update antlr grammar" -a
     - name: 📤 Push changes
-      if: github.event_name=='push'
-      uses: ad-m/github-push-action@master
+      uses: stefanzweifel/git-auto-commit-action@v4.1.2
       with:
+        commit_message: "chore: update antlr grammar"
+        # Optional name of the branch the commit should be pushed to
+        # Required if Action is used in Workflow listening to the `pull_request` event
+        branch: ${{ github.head_ref }}
+        # Optional commit user and author settings
+        commit_user_name: Grammar[bot]
+        commit_user_email: Grammar[bot]@noreply.github.com
+        commit_author: Grammar[bot] <actions@github.com>
         github_token: ${{ secrets.GITHUB_TOKEN }}

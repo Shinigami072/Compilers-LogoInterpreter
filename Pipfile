@@ -5,17 +5,23 @@ verify_ssl = true
 
 [dev-packages]
 pytest = "~=5.4.1"
+flake8 = "*"
+setuptools-antlr = "==0.4.0"
+punittest = "==0.1.12"
 
 [packages]
 antlr4-python3-runtime = "==4.7.1"
 jdcal = "==1.4.1"
 linecache2 = "==1.0.0"
 openpyxl = "===2.5.2"
-punittest = "==0.1.12"
-setuptools-antlr = "==0.4.0"
 six = "==1.14.0"
 traceback2 = "==1.4.0"
 et_xmlfile = "==1.0.1"
 
 [requires]
 python_version = "3.7"
+
+[scripts]
+antlr = "./setup.py antlr"
+test  = "pytest"
+lint  = "flake8 interpreter --count --select=E9,F63,F7,F82 --show-source --statistics && flake8 interpreter --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics"

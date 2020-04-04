@@ -1,0 +1,21 @@
+digraph ATN {
+rankdir=LR;
+s86[fontsize=11, label="86", shape=doublecircle, fixedsize=true, width=.6];
+s288[fontsize=11,label="{288*\nd=1|{<p0>|<p1>}}", shape=record, fixedsize=false, peripheries=1];
+s289[fontsize=11,label="289", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s290[fontsize=11,label="290*", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s85[fontsize=11,label="85", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s284[fontsize=11,label="284", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s285[fontsize=11,label="285", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s286[fontsize=11,label="&rarr;\n286*", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s287[fontsize=11,label="&larr;\n287", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s85 -> s284 [fontname="Times-Italic", label="&epsilon;"];
+s284 -> s288 [fontsize=11, fontname="Courier", arrowsize=.7, label = "{'A'..'Z', 'a'..'z'}", arrowhead = normal];
+s288:p0 -> s286 [fontname="Times-Italic", label="&epsilon;"];
+s288:p1 -> s289 [fontname="Times-Italic", label="&epsilon;"];
+s286 -> s285 [fontname="Times-Italic", label="&epsilon;"];
+s289 -> s86 [fontname="Times-Italic", label="&epsilon;"];
+s285 -> s287 [fontsize=11, fontname="Courier", arrowsize=.7, label = "{'0'..'9', 'A'..'Z', '_', 'a'..'z'}", arrowhead = normal];
+s287 -> s290 [fontname="Times-Italic", label="&epsilon;"];
+s290 -> s288 [fontname="Times-Italic", label="&epsilon;", style="dashed"];
+}

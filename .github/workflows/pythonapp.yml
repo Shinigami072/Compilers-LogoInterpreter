@@ -24,11 +24,10 @@ jobs:
       uses: olafurpg/setup-scala@v6
       with:
         java-version: openjdk@1.11
-    - name: 🔧 Set up Pipenv (Python 3.7)
-      uses: peaceiris/actions-pipenv@3.7
-      with:
-            args: sync
-      
+    - name: 🔧 Set up Pipenv
+      uses: dschep/install-pipenv-action@v1
+    - name: 🔧 Install Dependencies
+      run: pipenv sync
 #     - name: Lint with flake8
 #       run: |
 #         pip install flake8
@@ -38,11 +37,7 @@ jobs:
 #         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
     - name: 🔨 Regenerate antlr files
-      uses: peaceiris/actions-pipenv@3.7
-      with:
-          args: run antlr
+      run: pipenv run antlr
           
     - name: 📋 Test with pytest
-      uses: peaceiris/actions-pipenv@3.7
-      with: 
-           args: run test
+      run: pipenv run test

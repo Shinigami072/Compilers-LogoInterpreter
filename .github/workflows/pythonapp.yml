@@ -1,5 +1,5 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
-name: Python application 🔧🛠🔨
+name: Python application
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-
+    name: 🛠
     runs-on: ubuntu-latest
 
     steps:
@@ -27,17 +27,10 @@ jobs:
     - name: 🔧 Set up Pipenv
       uses: dschep/install-pipenv-action@v1
     - name: 🔧 Install Dependencies
-      run: pipenv sync
-#     - name: Lint with flake8
-#       run: |
-#         pip install flake8
-#         # stop the build if there are Python syntax errors or undefined name
-#         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-#         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-#         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-
+      run: pipenv sync -d
     - name: 🔨 Regenerate antlr files
       run: pipenv run antlr
-          
+    - name: 📋 Lint with flake8
+      run: pipenv run lint
     - name: 📋 Test with pytest
       run: pipenv run test

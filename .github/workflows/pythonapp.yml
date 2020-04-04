@@ -1,44 +1,49 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
-name: Python application 🔧🛠🔨
+name: Python application
 
 on:
   push:
     branches: [ master ]
+    
   pull_request:
     branches: [ master ]
 
 
 jobs:
   build:
-
+    name: 🛠
     runs-on: ubuntu-latest
 
     steps:
     - name: 📥 Checkout
       uses: actions/checkout@v2
-#     - name: 🔧 Set up Python 3.7
-#       uses: actions/setup-python@v1
-#       with:
-#         python-version: 3.7
+    - name: 🔧 Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    - name: 🔧 Set up Java   (Java 1.11)
+      uses: olafurpg/setup-scala@v6
+      with:
+        java-version: openjdk@1.11
     - name: 🔧 Set up Pipenv
-      uses: peaceiris/actions-pipenv@3.7
-      with:
-            args: sync
-      
-#     - name: Lint with flake8
-#       run: |
-#         pip install flake8
-#         # stop the build if there are Python syntax errors or undefined name
-#         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-#         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-#         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-
+      uses: dschep/install-pipenv-action@v1
+    - name: 🔧 Install Dependencies
+      run: pipenv sync -d
     - name: 🔨 Regenerate antlr files
-      uses: peaceiris/actions-pipenv@3.7
-      with:
-          args: run antlr
-          
+      run: pipenv run antlr
+    - name: 📋 Lint with flake8
+      run: pipenv run lint
     - name: 📋 Test with pytest
-      uses: peaceiris/actions-pipenv@3.7
-      with: 
-           args: run test
+      run: pipenv run test
+    - name: 📦 Create Commit
+      if: (! contains(github.actor,'Grammar[bot]')) && github.event_name=='push'
+      run: |
+        git config --local user.email "Grammar[bot]@noreply.github.com"
+        git config --local user.name "Grammar[bot]"
+        git status
+        git commit -m "chore: update antlr grammar" -a
+    - name: 📤 Push changes
+      if: github.event_name=='push'
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}

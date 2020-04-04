@@ -45,5 +45,5 @@ jobs:
         # Optional commit user and author settings
         commit_user_name: Grammar[bot]
         commit_user_email: Grammar[bot]@noreply.github.com
-        commit_author: Grammar[bot] <actions@github.com>
+        commit_author: ${{ github.actor }}
         github_token: ${{ secrets.GITHUB_TOKEN }}

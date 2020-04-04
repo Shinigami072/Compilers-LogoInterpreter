@@ -74,8 +74,8 @@ class logoVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by logoParser#cmd_print.
-    def visitCmd_print(self, ctx:logoParser.Cmd_printContext):
+    # Visit a parse tree produced by logoParser#line_print.
+    def visitLine_print(self, ctx:logoParser.Line_printContext):
         return self.visitChildren(ctx)
 
 

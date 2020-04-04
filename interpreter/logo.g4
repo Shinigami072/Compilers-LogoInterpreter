@@ -7,7 +7,7 @@ prog
 line
    : cmd + comment?
    | comment
-   | print comment?
+   | cmd_print comment?
    | procedureDeclaration
    ;
 
@@ -74,7 +74,7 @@ make
    : 'make' STRINGLITERAL value
    ;
 
-print
+cmd_print
    : 'print' (value | quotedstring)
    ;
 

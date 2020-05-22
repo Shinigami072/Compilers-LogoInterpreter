@@ -25,7 +25,7 @@ s101:p2 -> s96 [fontname="Times-Italic", label="&epsilon;"];
 s101:p3 -> s100 [fontname="Times-Italic", label="&epsilon;"];
 s88 -> s87 [fontname="Times-Italic", label="&epsilon;"];
 s95 -> s102 [fontsize=11, fontname="Courier", arrowsize=.7, label = "<comment>", arrowhead = normal];
-s96 -> s98 [fontsize=11, fontname="Courier", arrowsize=.7, label = "<cmd_print>", arrowhead = normal];
+s96 -> s98 [fontsize=11, fontname="Courier", arrowsize=.7, label = "<line_print>", arrowhead = normal];
 s100 -> s102 [fontsize=11, fontname="Courier", arrowsize=.7, label = "<procedureDeclaration>", arrowhead = normal];
 s87 -> s89 [fontsize=11, fontname="Courier", arrowsize=.7, label = "<cmd>", arrowhead = normal];
 s102 -> s3 [fontname="Times-Italic", label="&epsilon;"];

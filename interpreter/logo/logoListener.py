@@ -125,12 +125,12 @@ class logoListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by logoParser#cmd_print.
-    def enterCmd_print(self, ctx:logoParser.Cmd_printContext):
+    # Enter a parse tree produced by logoParser#line_print.
+    def enterLine_print(self, ctx:logoParser.Line_printContext):
         pass
 
-    # Exit a parse tree produced by logoParser#cmd_print.
-    def exitCmd_print(self, ctx:logoParser.Cmd_printContext):
+    # Exit a parse tree produced by logoParser#line_print.
+    def exitLine_print(self, ctx:logoParser.Line_printContext):
         pass
 
 

@@ -112,7 +112,7 @@ ife
 comparison
 comparisonOperator
 make
-cmd_print
+line_print
 quotedstring
 name
 value

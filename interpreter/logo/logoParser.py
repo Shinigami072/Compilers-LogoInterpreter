@@ -177,7 +177,7 @@ class logoParser ( Parser ):
     RULE_comparison = 10
     RULE_comparisonOperator = 11
     RULE_make = 12
-    RULE_cmd_print = 13
+    RULE_line_print = 13
     RULE_quotedstring = 14
     RULE_name = 15
     RULE_value = 16
@@ -205,7 +205,7 @@ class logoParser ( Parser ):
 
     ruleNames =  [ "prog", "line", "cmd", "procedureInvocation", "procedureDeclaration", 
                    "parameterDeclarations", "func", "repeat", "block", "ife", 
-                   "comparison", "comparisonOperator", "make", "cmd_print", 
+                   "comparison", "comparisonOperator", "make", "line_print", 
                    "quotedstring", "name", "value", "signExpression", "multiplyingExpression", 
                    "expression", "deref", "fd", "bk", "rt", "lt", "cs", 
                    "pu", "pd", "ht", "st", "home", "stop", "label", "setxy", 
@@ -369,8 +369,8 @@ class logoParser ( Parser ):
             return self.getTypedRuleContext(logoParser.CommentContext,0)
 
 
-        def cmd_print(self):
-            return self.getTypedRuleContext(logoParser.Cmd_printContext,0)
+        def line_print(self):
+            return self.getTypedRuleContext(logoParser.Line_printContext,0)
 
 
         def procedureDeclaration(self):
@@ -437,7 +437,7 @@ class logoParser ( Parser ):
             elif token in [logoParser.T__12]:
                 self.enterOuterAlt(localctx, 3)
                 self.state = 96
-                self.cmd_print()
+                self.line_print()
                 self.state = 98
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
@@ -1288,7 +1288,7 @@ class logoParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class Cmd_printContext(ParserRuleContext):
+    class Line_printContext(ParserRuleContext):
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1303,29 +1303,29 @@ class logoParser ( Parser ):
 
 
         def getRuleIndex(self):
-            return logoParser.RULE_cmd_print
+            return logoParser.RULE_line_print
 
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterCmd_print" ):
-                listener.enterCmd_print(self)
+            if hasattr( listener, "enterLine_print" ):
+                listener.enterLine_print(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitCmd_print" ):
-                listener.exitCmd_print(self)
+            if hasattr( listener, "exitLine_print" ):
+                listener.exitLine_print(self)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitCmd_print" ):
-                return visitor.visitCmd_print(self)
+            if hasattr( visitor, "visitLine_print" ):
+                return visitor.visitLine_print(self)
             else:
                 return visitor.visitChildren(self)
 
 
 
 
-    def cmd_print(self):
+    def line_print(self):
 
-        localctx = logoParser.Cmd_printContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 26, self.RULE_cmd_print)
+        localctx = logoParser.Line_printContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 26, self.RULE_line_print)
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 188

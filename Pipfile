@@ -20,6 +20,7 @@ et_xmlfile = "==1.0.1"
 pyglet = "==1.5.5"
 pip = "*"
 setuptools = "*"
+pygame = "*"
 
 [requires]
 python_version = "3.6.3"

@@ -1,7 +1,9 @@
 import sys
+import signal
 
 from antlr4 import *
 
+from interpreter.display.pygame.PygameDisplay import PygameDisplay
 from interpreter.display.windowed.WindowedDisplay import WindowedDisplay
 from interpreter.runtime.Model import Environment
 
@@ -52,7 +54,7 @@ def main(argv):
         input_text = FileStream(argv[1])
 
     environment = Environment(1000.0, 1000.0)
-    display = WindowedDisplay(environment)
+    display = PygameDisplay(environment)
 
     # TODO remove display Demonstration
     def robot_demo(robot):
@@ -68,7 +70,7 @@ def main(argv):
                             if random.random() < 0.6:
                                 robot.move_pencil_up()
                             robot.move(60)
-                            time.sleep(delay*2)
+                            time.sleep(delay * 2)
                             robot.rotate(360 / 6)
                             time.sleep(delay)
 
@@ -91,7 +93,8 @@ def main(argv):
             robot.draw_Robot = False
 
     robot_demo(environment.turtle)
-    time.sleep(30)
+    time.sleep(1)
+
     # lexer = logoLexer(input_text)
     # stream = CommonTokenStream(lexer)
     # parser = logoParser(stream)

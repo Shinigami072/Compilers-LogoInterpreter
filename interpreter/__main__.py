@@ -1,11 +1,19 @@
-from antlr4 import *
 import sys
 
-from antlr4.tree.Tree import TerminalNodeImpl
+from antlr4 import *
 
-from .logo.logoLexer import logoLexer
-from .logo.logoListener import logoListener
-from .logo.logoParser import logoParser
+from interpreter.display.windowed.WindowedDisplay import WindowedDisplay
+from interpreter.runtime.Model import Environment
+
+if __name__ is not None and "." in __name__:
+    from .logo.logoListener import logoListener
+    from .logo.logoParser import logoParser
+else:
+    from logo.logoListener import logoListener
+    from logo.logoParser import logoParser
+
+import random
+import time
 
 
 class LogoPrintListener(logoListener):
@@ -42,14 +50,58 @@ def main(argv):
         input_text = InputStream(data="fd 60 rt 120 fd 60 rt 120 fd 60 rt 120\n")
     else:
         input_text = FileStream(argv[1])
-    lexer = logoLexer(input_text)
-    stream = CommonTokenStream(lexer)
-    parser = logoParser(stream)
-    printer = LogoPrintListener()
-    tree = parser.prog()
-    print(tree.children)
-    walker = ParseTreeWalker()
-    walker.walk(printer, tree)
+
+    environment = Environment(1000.0, 1000.0)
+    display = WindowedDisplay(environment)
+
+    # TODO remove display Demonstration
+    def robot_demo(robot):
+        delay = 0.0001
+        robot.move_pencil_down()
+        for _ in range(6):
+            for _ in range(6):
+                for _ in range(6):
+                    for y in range(6):
+                        for i in range(6):
+                            if random.random() < 0.05:
+                                robot.move_pencil_down()
+                            if random.random() < 0.6:
+                                robot.move_pencil_up()
+                            robot.move(60)
+                            time.sleep(delay*2)
+                            robot.rotate(360 / 6)
+                            time.sleep(delay)
+
+                        robot.move(12)
+                        time.sleep(delay)
+                        robot.rotate(360 / 6)
+                        time.sleep(delay)
+                    robot.move(48)
+                    time.sleep(delay)
+                    robot.rotate(360 / 6)
+                    time.sleep(delay)
+                robot.move(96)
+                time.sleep(delay)
+                robot.rotate(360 / 6)
+                time.sleep(delay)
+            robot.move(192)
+            time.sleep(delay)
+            robot.rotate(360 / 6)
+            time.sleep(delay)
+            robot.draw_Robot = False
+
+    robot_demo(environment.turtle)
+    time.sleep(30)
+    # lexer = logoLexer(input_text)
+    # stream = CommonTokenStream(lexer)
+    # parser = logoParser(stream)
+    # printer = LogoPrintListener()
+    #
+    # tree = parser.prog()
+    # print(tree.children)
+    # walker = ParseTreeWalker()
+    # walker.walk(printer, tree)
+    display.close()
 
 
 if __name__ == '__main__':

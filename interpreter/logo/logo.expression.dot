@@ -7,7 +7,7 @@ s230[fontsize=11,label="230", shape=circle, fixedsize=true, width=.55, peripheri
 s231[fontsize=11,label="231", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s232[fontsize=11,label="&rarr;\n232*", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s233[fontsize=11,label="&larr;\n233", shape=circle, fixedsize=true, width=.55, peripheries=1];
-s234[fontsize=11,label="{234*\nd=22|{<p0>|<p1>}}", shape=record, fixedsize=false, peripheries=1];
+s234[fontsize=11,label="{234*\nd=21|{<p0>|<p1>}}", shape=record, fixedsize=false, peripheries=1];
 s235[fontsize=11,label="235", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s236[fontsize=11,label="236*", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s38 -> s229 [fontname="Times-Italic", label="&epsilon;"];

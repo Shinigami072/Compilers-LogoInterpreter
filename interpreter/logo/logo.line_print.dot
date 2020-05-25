@@ -6,7 +6,7 @@ s26[fontsize=11,label="26", shape=circle, fixedsize=true, width=.55, peripheries
 s188[fontsize=11,label="188", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s189[fontsize=11,label="189", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s190[fontsize=11,label="190", shape=circle, fixedsize=true, width=.55, peripheries=1];
-s191[fontsize=11,label="{&rarr;\n191\nd=15|{<p0>|<p1>}}", shape=record, fixedsize=false, peripheries=1];
+s191[fontsize=11,label="{&rarr;\n191\nd=14|{<p0>|<p1>}}", shape=record, fixedsize=false, peripheries=1];
 s26 -> s188 [fontname="Times-Italic", label="&epsilon;"];
 s188 -> s191 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'print'", arrowhead = normal];
 s191:p0 -> s189 [fontname="Times-Italic", label="&epsilon;"];

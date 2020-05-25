@@ -1,110 +1,79 @@
+import argparse
 import sys
-import signal
 
 from antlr4 import *
 
 from interpreter.display.pygame.PygameDisplay import PygameDisplay
 from interpreter.display.windowed.WindowedDisplay import WindowedDisplay
-from interpreter.runtime.Model import Environment
+from interpreter.logo.logoLexer import logoLexer
+from interpreter.runtime.Interpreter import Interpreter
+from interpreter.runtime.LogoASTMakingParseTreeVisitor import LogoASTMakingParseTreeVisitor
+from interpreter.runtime.Model import Environment, Turtle
+from interpreter.runtime.logo_ast import PROGRAM
 
 if __name__ is not None and "." in __name__:
-    from .logo.logoListener import logoListener
     from .logo.logoParser import logoParser
 else:
-    from logo.logoListener import logoListener
     from logo.logoParser import logoParser
 
-import random
-import time
+
+def create_AST(input_text: InputStream) -> PROGRAM:
+    lexer = logoLexer(input_text)
+    stream = CommonTokenStream(lexer)
+    parser = logoParser(stream)
+    visitor = LogoASTMakingParseTreeVisitor()
+
+    tree = parser.prog()
+    return visitor.visit(tree)
 
 
-class LogoPrintListener(logoListener):
-    def explore(self, ctx: RuleContext):
-        ruleName = logoParser.ruleNames[ctx.getRuleIndex()];
-        print(ruleName, end=" ")
-        for child in ctx.children:
-            if child is RuleContext:
-                self.explore(child)
-            else:
-                print(child, end=" ")
-
-    def enterCmd(self, ctx):
-        print("CMD: %s" % ctx)
-
-    def enterFd(self, ctx: logoParser.FdContext):
-        ctx.expression()
-        print("FD %s" % ctx.expression())
-
-    def exitFd(self, ctx: logoParser.FdContext):
-        print("_FD %s" % ctx.expression())
-        self.explore(ctx.expression())
-
-    def enterRt(self, ctx: logoParser.RtContext):
-        print("RT %s" % ctx.expression())
-
-    def exitRt(self, ctx: logoParser.RtContext):
-        print("_RT %s" % ctx.expression())
-        self.explore(ctx.expression())
+def create_interpreter(environment: Environment, program: PROGRAM):
+    interpreter = Interpreter(environment)
+    interpreter.execute(program)
 
 
 def main(argv):
-    if (len(argv) < 2):
-        input_text = InputStream(data="fd 60 rt 120 fd 60 rt 120 fd 60 rt 120\n")
+    arguments = argparse.ArgumentParser(prog="Logo interpreter written using python")
+    arguments.add_argument("--inputFile", help="File to load program from", default=None, required=False)
+    arguments.add_argument("--display-backend", help="Backed to use for display", default="windowed",
+                           choices=["windowed", "pygame"])
+    arguments.add_argument("--width", help="Environment width", default=1000.0)
+    arguments.add_argument("--height", help="Environment width", default=1000.0)
+
+    args = arguments.parse_args(argv[1:])
+
+    # input_text = InputStream(data="fd 60 rt 120 fd 60 rt 120 fd 60 rt 120\n")
+
+    environment = Environment(args.width, args.height, turtle=Turtle(args.width / 2, args.height / 2, pencil_down=True))
+
+    backend = args.display_backend
+    if backend == "pygame":
+        PygameDisplay(environment)
     else:
-        input_text = FileStream(argv[1])
+        WindowedDisplay(environment)
 
-    environment = Environment(1000.0, 1000.0)
-    display = PygameDisplay(environment)
+    infile = args.inputFile
+    repeat = True
+    while (repeat):
+        if infile is None:
+            input_text = InputStream(input(">"))  # InputStream(data="fd 60 rt 120 fd 60 rt 120 fd 60 rt 120\n")
+        else:
+            repeat = False
+            print(">", infile)
+            input_text = FileStream(infile)
 
-    # TODO remove display Demonstration
-    def robot_demo(robot):
-        delay = 0.0001
-        robot.move_pencil_down()
-        for _ in range(6):
-            for _ in range(6):
-                for _ in range(6):
-                    for y in range(6):
-                        for i in range(6):
-                            if random.random() < 0.05:
-                                robot.move_pencil_down()
-                            if random.random() < 0.6:
-                                robot.move_pencil_up()
-                            robot.move(60)
-                            time.sleep(delay * 2)
-                            robot.rotate(360 / 6)
-                            time.sleep(delay)
+        ast = create_AST(input_text)
+        create_interpreter(environment, ast)
 
-                        robot.move(12)
-                        time.sleep(delay)
-                        robot.rotate(360 / 6)
-                        time.sleep(delay)
-                    robot.move(48)
-                    time.sleep(delay)
-                    robot.rotate(360 / 6)
-                    time.sleep(delay)
-                robot.move(96)
-                time.sleep(delay)
-                robot.rotate(360 / 6)
-                time.sleep(delay)
-            robot.move(192)
-            time.sleep(delay)
-            robot.rotate(360 / 6)
-            time.sleep(delay)
-            robot.draw_Robot = False
-
-    robot_demo(environment.turtle)
-    time.sleep(1)
-
-    # lexer = logoLexer(input_text)
-    # stream = CommonTokenStream(lexer)
-    # parser = logoParser(stream)
-    # printer = LogoPrintListener()
-    #
-    # tree = parser.prog()
-    # print(tree.children)
-    # walker = ParseTreeWalker()
-    # walker.walk(printer, tree)
-    display.close()
+    # TODO CREATE AST representing the whole program
+    # Current support for rotating right - moving forward and basic expressions
+    # TODO Implement all builtin commands
+    # TODO Implement print_line
+    # TODO Procedure Declaration
+    # TODO Procedure Invocation
+    # TODO Extend expressions to use functions
+    # TODO CREATE INTERPRETER using the environment and AST
+    input("Exit")
 
 
 if __name__ == '__main__':

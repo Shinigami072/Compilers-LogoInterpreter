@@ -20,7 +20,7 @@ s117[fontsize=11,label="117", shape=circle, fixedsize=true, width=.55, peripheri
 s118[fontsize=11,label="118", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s119[fontsize=11,label="119", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s120[fontsize=11,label="120", shape=circle, fixedsize=true, width=.55, peripheries=1];
-s121[fontsize=11,label="{&rarr;\n121\nd=7|{<p0>|<p1>|<p2>|<p3>|<p4>|<p5>|<p6>|<p7>|<p8>|<p9>|<p10>|<p11>|<p12>|<p13>|<p14>|<p15>|<p16>|<p17>}}", shape=record, fixedsize=false, peripheries=1];
+s121[fontsize=11,label="{&rarr;\n121\nd=6|{<p0>|<p1>|<p2>|<p3>|<p4>|<p5>|<p6>|<p7>|<p8>|<p9>|<p10>|<p11>|<p12>|<p13>|<p14>|<p15>|<p16>|<p17>}}", shape=record, fixedsize=false, peripheries=1];
 s122[fontsize=11,label="&larr;\n122", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s4 -> s121 [fontname="Times-Italic", label="&epsilon;"];
 s121:p0 -> s103 [fontname="Times-Italic", label="&epsilon;"];

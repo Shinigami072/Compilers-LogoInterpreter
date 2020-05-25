@@ -1,11 +1,11 @@
 grammar logo;
 
 prog
-   : (line? EOL) + line?
+   : (line? EOL)* line
    ;
 
 line
-   : cmd + comment?
+   : cmd+ comment?
    | comment
    | line_print comment?
    | procedureDeclaration
@@ -37,7 +37,7 @@ procedureInvocation
    ;
 
 procedureDeclaration
-   : 'to' name parameterDeclarations* EOL? (line? EOL) + 'end'
+   : 'to' name parameterDeclarations* EOL? (line? EOL)+ 'end'
    ;
 
 parameterDeclarations
@@ -97,11 +97,11 @@ signExpression
    ;
 
 multiplyingExpression
-   : signExpression (('*' | '/') signExpression)*
+   : left=signExpression (op=('*' | '/') right=signExpression)*
    ;
 
 expression
-   : multiplyingExpression (('+' | '-') multiplyingExpression)*
+   : left=multiplyingExpression (op=('+' | '-') right=multiplyingExpression)*
    ;
 
 deref
@@ -193,7 +193,7 @@ STRING
 
 
 NUMBER
-   : [0-9] +
+   : [0-9]+
    ;
 
 

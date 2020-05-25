@@ -8,7 +8,7 @@ s123[fontsize=11,label="123", shape=circle, fixedsize=true, width=.55, peripheri
 s124[fontsize=11,label="124", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s125[fontsize=11,label="&rarr;\n125*", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s126[fontsize=11,label="&larr;\n126", shape=circle, fixedsize=true, width=.55, peripheries=1];
-s127[fontsize=11,label="{127*\nd=8|{<p0>|<p1>}}", shape=record, fixedsize=false, peripheries=1];
+s127[fontsize=11,label="{127*\nd=7|{<p0>|<p1>}}", shape=record, fixedsize=false, peripheries=1];
 s6 -> s123 [fontname="Times-Italic", label="&epsilon;"];
 s123 -> s127 [fontsize=11, fontname="Courier", arrowsize=.7, label = "<name>", arrowhead = normal];
 s127:p0 -> s125 [fontname="Times-Italic", label="&epsilon;"];

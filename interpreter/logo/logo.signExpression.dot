@@ -5,13 +5,13 @@ s34[fontsize=11,label="34", shape=circle, fixedsize=true, width=.55, peripheries
 s210[fontsize=11,label="210", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s211[fontsize=11,label="&rarr;\n211*", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s212[fontsize=11,label="&larr;\n212", shape=circle, fixedsize=true, width=.55, peripheries=1];
-s213[fontsize=11,label="{213*\nd=19|{<p0>|<p1>}}", shape=record, fixedsize=false, peripheries=1];
+s213[fontsize=11,label="{213*\nd=18|{<p0>|<p1>}}", shape=record, fixedsize=false, peripheries=1];
 s214[fontsize=11,label="214", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s215[fontsize=11,label="215*", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s216[fontsize=11,label="216", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s217[fontsize=11,label="217", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s218[fontsize=11,label="218", shape=circle, fixedsize=true, width=.55, peripheries=1];
-s219[fontsize=11,label="{&rarr;\n219\nd=20|{<p0>|<p1>|<p2>}}", shape=record, fixedsize=false, peripheries=1];
+s219[fontsize=11,label="{&rarr;\n219\nd=19|{<p0>|<p1>|<p2>}}", shape=record, fixedsize=false, peripheries=1];
 s220[fontsize=11,label="&larr;\n220", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s34 -> s213 [fontname="Times-Italic", label="&epsilon;"];
 s213:p0 -> s211 [fontname="Times-Italic", label="&epsilon;"];

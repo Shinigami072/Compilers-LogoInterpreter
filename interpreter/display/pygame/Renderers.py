@@ -28,6 +28,8 @@ class RobotRenderer:
 
     def draw(self, surface):
         self.lines.draw(surface)
+        if not self.robot.visible:
+            return
         pygame.draw.circle(surface, WHITE, (round(self.robot.pos[0]), round(self.robot.pos[1])), 10)
 
 

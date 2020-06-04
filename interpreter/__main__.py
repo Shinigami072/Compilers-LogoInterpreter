@@ -14,7 +14,7 @@ from interpreter.runtime.logo_ast import PROGRAM
 if __name__ is not None and "." in __name__:
     from .logo.logoParser import logoParser
 else:
-    from logo.logoParser import logoParser
+    from interpreter.logo.logoParser import logoParser
 
 
 def create_AST(input_text: InputStream) -> PROGRAM:
@@ -44,7 +44,7 @@ def main(argv):
 
     # input_text = InputStream(data="fd 60 rt 120 fd 60 rt 120 fd 60 rt 120\n")
 
-    environment = Environment(args.width, args.height, turtle=Turtle(args.width / 2, args.height / 2, pencil_down=True))
+    environment = Environment(args.width, args.height, turtle=Turtle(args.width / 2, args.height / 2))
 
     backend = args.display_backend
     if backend == "pygame":
@@ -63,6 +63,7 @@ def main(argv):
             input_text = FileStream(infile)
 
         ast = create_AST(input_text)
+        print(ast)
         create_interpreter(environment, ast)
 
     # TODO CREATE AST representing the whole program

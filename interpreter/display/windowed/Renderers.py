@@ -47,6 +47,9 @@ class RobotRenderer:
 
     def draw(self):
         self.lines.draw()
+        if not self.robot.visible:
+            return
+
         glPushMatrix()
         glTranslatef(self.robot.pos[0], self.robot.pos[1], 0.0)
         glRotatef(self.robot.rot - 90.0, 0, 0, 1)

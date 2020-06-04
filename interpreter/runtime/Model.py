@@ -17,21 +17,36 @@ class Turtle:
         self.lines = [Line()]
         self.pencil_down = pencil_down
         self.draw_Robot = draw
+        self.visible = True
+        if pencil_down:
+            self._extendLine()
+
+    def _extendLine(self):
+        self.lines[-1].add_point(self.pos)
+
+    def clear(self):
+        self.lines.clear()
+
+        if self.pencil_down:
+            self.lines.append(Line())
+
+    def move_to(self, new_pos: typing.Tuple[float, float]):
+        self.pos = new_pos
+
+        if self.pencil_down:
+            self._extendLine()
 
     def move(self, dist: float):
         dx = dist * math.cos(math.radians(self.rot))
         dy = dist * math.sin(math.radians(self.rot))
 
         x, y = self.pos
-
-        self.pos = (x + dx, y + dy)
-
-        if self.pencil_down:
-            self.lines[-1].add_point(self.pos)
+        new_pos = (x + dx, y + dy)
+        self.move_to(new_pos)
 
     def move_pencil_down(self):
         if not self.pencil_down:
-            self.lines[-1].add_point(self.pos)
+            self._extendLine()
             self.pencil_down = True
 
     def move_pencil_up(self):

@@ -1,4 +1,6 @@
+from enum import Enum
 from typing import List
+
 
 class AST:
     def accept(self, visitor):
@@ -24,52 +26,61 @@ class EXPRESION(AST):
         return visitor.visitExpression(self)
 
 
+class COMMAND(Enum):
+    CUSTOM = 1,
+    TURTLE_MOVE = 2,
+    TURTLE_ROTATE = 4,
+    TURTLE_VISIBILITY = 8,
+    TURTLE_XY = 9,
+    CLEAR_SCREEN = 16,
+    HOME = 32
+    PEN = 64
+
+
 class CMD(AST):
-    def __init__(self, cmd, arguments: List[EXPRESION]):
+    def __init__(self, cmd: COMMAND, arguments: List[EXPRESION]):
         self.cmd = cmd
-        self.token = cmd
+        self.argument_count = len(arguments)
         self.arguments = arguments
 
     def accept(self, visitor):
         return visitor.visitCMD(self)
 
     def __str__(self):
-        return "CMD %s %s %s" % (self.cmd, self.token, self.arguments)
+        return "CMD %s %s" % (self.cmd, self.arguments)
 
     def __repr__(self):
         return self.__str__()
 
 
-class FD(CMD):
-    def __init__(self, ammount: EXPRESION):
-        super().__init__("FD", [ammount])
-        self.amount = ammount
-
-    def __str__(self):
-        return "FD %s" % self.amount
-
-    def __repr__(self):
-        return self.__str__()
-
-    def accept(self, visitor):
-        super().accept(visitor)
-        return visitor.visitFD(self)
+class NoArg(CMD):
+    def __init__(self, cmd):
+        super().__init__(cmd, [])
 
 
-class RT(CMD):
-    def __init__(self, ammount: EXPRESION):
-        super().__init__("RT", [ammount])
-        self.amount = ammount
+class PEN(NoArg):
+    def __init__(self, status: bool):
+        super().__init__(COMMAND.PEN)
+        self.status = status
 
-    def __str__(self):
-        return "RT %s" % self.amount
 
-    def __repr__(self):
-        return self.__str__()
+class Visibility(NoArg):
+    def __init__(self, status: bool):
+        super().__init__(COMMAND.TURTLE_VISIBILITY)
+        self.status = status
 
-    def accept(self, visitor):
-        super().accept(visitor)
-        return visitor.visitRT(self)
+
+class OneArg(CMD):
+    def __init__(self, cmd, arg: EXPRESION):
+        super().__init__(cmd, [arg])
+        self.first = arg
+
+
+class TwoArg(CMD):
+    def __init__(self, cmd, arg1: EXPRESION, arg2: EXPRESION):
+        super().__init__(cmd, [arg1, arg2])
+        self.first = arg1
+        self.second = arg2
 
 
 class BINOP(EXPRESION):
@@ -120,6 +131,18 @@ class Div(BINOP):
     def accept(self, visitor):
         super().accept(visitor)
         return visitor.visitDiv(self)
+
+
+class NEG(EXPRESION):
+    def __init__(self, value: EXPRESION):
+        self.value = value
+
+    def accept(self, visitor):
+        super().accept(visitor)
+        return visitor.visitNeg(self)
+
+    def __str__(self):
+        return "-(%s)" % self.value
 
 
 class NUMBER(EXPRESION):

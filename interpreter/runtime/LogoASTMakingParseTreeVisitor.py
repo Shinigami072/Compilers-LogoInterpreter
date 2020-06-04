@@ -5,26 +5,45 @@ from interpreter.logo.logoParser import *
 from interpreter.runtime.logo_ast import *
 
 
-class LINE(AST):
-    def __init__(self, cmds: List[CMD]):
-        self.cmds = cmds
-
-
 class LogoASTMakingParseTreeVisitor(logoVisitor):
 
     def visitProg(self, ctx: logoParser.ProgContext) -> PROGRAM:
         return PROGRAM([cmd for line in ctx.line() for cmd in self.visitLine(line).cmds])
 
-    def visitLine(self, ctx: logoParser.LineContext) -> LINE:
+    def visitLine(self, ctx: logoParser.LineContext) -> PROGRAM:
         cmds = ctx.cmd()
         if len(cmds) > 0:
-            return LINE([self.visitCmd(cmd) for cmd in cmds])
+            return PROGRAM([self.visitCmd(cmd) for cmd in cmds])
 
     def visitRt(self, ctx: logoParser.RtContext):
-        return RT(self.visitExpression(ctx.expression()))
+        return OneArg(COMMAND.TURTLE_ROTATE, self.visitExpression(ctx.expression()))
+
+    def visitLt(self, ctx: logoParser.BkContext):
+        return OneArg(COMMAND.TURTLE_ROTATE, NEG(self.visitExpression(ctx.expression())))
 
     def visitFd(self, ctx: logoParser.FdContext) -> AST:
-        return FD(self.visitExpression(ctx.expression()))
+        return OneArg(COMMAND.TURTLE_MOVE, self.visitExpression(ctx.expression()))
+
+    def visitBk(self, ctx: logoParser.BkContext):
+        return OneArg(COMMAND.TURTLE_MOVE, NEG(self.visitExpression(ctx.expression())))
+
+    def visitCs(self, ctx: logoParser.CsContext):
+        return NoArg(COMMAND.CLEAR_SCREEN)
+
+    def visitHome(self, ctx: logoParser.HomeContext):
+        return NoArg(COMMAND.HOME)
+
+    def visitPu(self, ctx: logoParser.PdContext):
+        return PEN(False)
+
+    def visitPd(self, ctx: logoParser.PdContext):
+        return PEN(True)
+
+    def visitSt(self, ctx: logoParser.StContext):
+        return Visibility(True)
+
+    def visitHt(self, ctx: logoParser.HtContext):
+        return Visibility(False)
 
     def visitExpression(self, ctx: logoParser.ExpressionContext) -> EXPRESION:
         if ctx.getChildCount() == 1:
@@ -41,6 +60,9 @@ class LogoASTMakingParseTreeVisitor(logoVisitor):
                     left = Sub(left, self.visitMultiplyingExpression(right))
 
             return left
+
+    def visitSetxy(self, ctx: logoParser.SetxyContext):
+        return TwoArg(COMMAND.TURTLE_XY, self.visit(ctx.expression(0)), self.visit(ctx.expression(1)))
 
     def visitMultiplyingExpression(self, ctx: logoParser.MultiplyingExpressionContext) -> EXPRESION:
         if ctx.getChildCount() == 1:
@@ -74,9 +96,3 @@ class LogoASTMakingParseTreeVisitor(logoVisitor):
 
     def defaultResult(self) -> Optional[AST]:
         return None
-
-    def aggregateResult(self, aggregate, nextResult) -> Optional[AST]:
-        if aggregate is None:
-            return nextResult
-        else:
-            return aggregate

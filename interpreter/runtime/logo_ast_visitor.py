@@ -1,6 +1,6 @@
 from abc import ABC
 
-from interpreter.runtime.logo_ast import PROGRAM, EXPRESION, CMD, FD, RT, BINOP, Sub, Add, Mul, Div, NUMBER
+from interpreter.runtime.logo_ast import PROGRAM, EXPRESION, CMD, BINOP, Sub, Add, Mul, Div, NUMBER, NoArg, OneArg
 
 
 class ASTVisitor:
@@ -16,12 +16,6 @@ class ASTVisitor:
         pass
 
     def visitCMD(self, cmd: CMD):
-        pass
-
-    def visitFD(self, fd: FD):
-        pass
-
-    def visitRT(self, rt: RT):
         pass
 
     def visitBINOP(self, binop: BINOP):

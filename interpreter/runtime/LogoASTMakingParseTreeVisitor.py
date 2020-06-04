@@ -95,7 +95,7 @@ class LogoASTMakingParseTreeVisitor(logoVisitor):
             for i in range(1, len(ctx.children[1:]), 2):
                 op = ctx.children[i]
                 right = ctx.children[i + 1]
-                if op.getText() == '+':
+                if op.symbol.type == logoParser.ADD:
                     operator = NumberBinaryOperator.Operator.Add
                 else:
                     operator = NumberBinaryOperator.Operator.Sub
@@ -116,7 +116,7 @@ class LogoASTMakingParseTreeVisitor(logoVisitor):
                 op = ctx.children[i]
                 right = ctx.children[i + 1]
 
-                if op.getText() == '*':
+                if op.symbol.type == logoParser.MUL:
                     operator = NumberBinaryOperator.Operator.Mul
                 else:
                     operator = NumberBinaryOperator.Operator.Div
@@ -126,7 +126,7 @@ class LogoASTMakingParseTreeVisitor(logoVisitor):
             return left
 
     def visitSignExpression(self, ctx: logoParser.SignExpressionContext) -> Expression:
-        sign = len([x for x in ctx.getChildren(lambda x: x.getText() == "-")]) % 2 == 0
+        sign = len(ctx.getTokens(logoParser.SUB)) % 2 == 0
         number = ctx.number()
         if number is not None:
             num = self.visitNumber(number)

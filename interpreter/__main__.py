@@ -9,7 +9,7 @@ from interpreter.logo.logoLexer import logoLexer
 from interpreter.runtime.Interpreter import Interpreter
 from interpreter.runtime.LogoASTMakingParseTreeVisitor import LogoASTMakingParseTreeVisitor
 from interpreter.runtime.Model import Environment, Turtle
-from interpreter.runtime.logo_ast import PROGRAM
+from interpreter.runtime.logo_ast import Block
 
 if __name__ is not None and "." in __name__:
     from .logo.logoParser import logoParser
@@ -17,7 +17,7 @@ else:
     from interpreter.logo.logoParser import logoParser
 
 
-def create_AST(input_text: InputStream) -> PROGRAM:
+def create_AST(input_text: InputStream) -> Block:
     lexer = logoLexer(input_text)
     stream = CommonTokenStream(lexer)
     parser = logoParser(stream)
@@ -27,7 +27,7 @@ def create_AST(input_text: InputStream) -> PROGRAM:
     return visitor.visit(tree)
 
 
-def create_interpreter(environment: Environment, program: PROGRAM):
+def create_interpreter(environment: Environment, program: Block):
     interpreter = Interpreter(environment)
     interpreter.execute(program)
 

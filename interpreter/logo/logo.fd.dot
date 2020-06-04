@@ -1,12 +1,12 @@
 digraph ATN {
 rankdir=LR;
 s43[fontsize=11, label="43", shape=doublecircle, fixedsize=true, width=.6];
-s240[fontsize=11,label="240", shape=circle, fixedsize=true, width=.55, peripheries=1];
-s241[fontsize=11,label="241", shape=circle, fixedsize=true, width=.55, peripheries=1];
-s242[fontsize=11,label="242", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s42[fontsize=11,label="42", shape=circle, fixedsize=true, width=.55, peripheries=1];
-s42 -> s240 [fontname="Times-Italic", label="&epsilon;"];
-s240 -> s241 [fontsize=11, fontname="Courier", arrowsize=.7, label = "{'fd', 'forward'}", arrowhead = normal];
-s241 -> s242 [fontsize=11, fontname="Courier", arrowsize=.7, label = "<expression>", arrowhead = normal];
-s242 -> s43 [fontname="Times-Italic", label="&epsilon;"];
+s237[fontsize=11,label="237", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s238[fontsize=11,label="238", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s239[fontsize=11,label="239", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s42 -> s237 [fontname="Times-Italic", label="&epsilon;"];
+s237 -> s238 [fontsize=11, fontname="Courier", arrowsize=.7, label = "{'fd', 'forward'}", arrowhead = normal];
+s238 -> s239 [fontsize=11, fontname="Courier", arrowsize=.7, label = "<expression>", arrowhead = normal];
+s239 -> s43 [fontname="Times-Italic", label="&epsilon;"];
 }

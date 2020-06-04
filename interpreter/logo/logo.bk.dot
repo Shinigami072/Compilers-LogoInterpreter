@@ -1,12 +1,12 @@
 digraph ATN {
 rankdir=LR;
 s45[fontsize=11, label="45", shape=doublecircle, fixedsize=true, width=.6];
-s243[fontsize=11,label="243", shape=circle, fixedsize=true, width=.55, peripheries=1];
-s244[fontsize=11,label="244", shape=circle, fixedsize=true, width=.55, peripheries=1];
-s245[fontsize=11,label="245", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s240[fontsize=11,label="240", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s241[fontsize=11,label="241", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s242[fontsize=11,label="242", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s44[fontsize=11,label="44", shape=circle, fixedsize=true, width=.55, peripheries=1];
-s44 -> s243 [fontname="Times-Italic", label="&epsilon;"];
-s243 -> s244 [fontsize=11, fontname="Courier", arrowsize=.7, label = "{'bk', 'backward'}", arrowhead = normal];
-s244 -> s245 [fontsize=11, fontname="Courier", arrowsize=.7, label = "<expression>", arrowhead = normal];
-s245 -> s45 [fontname="Times-Italic", label="&epsilon;"];
+s44 -> s240 [fontname="Times-Italic", label="&epsilon;"];
+s240 -> s241 [fontsize=11, fontname="Courier", arrowsize=.7, label = "{'bk', 'backward'}", arrowhead = normal];
+s241 -> s242 [fontsize=11, fontname="Courier", arrowsize=.7, label = "<expression>", arrowhead = normal];
+s242 -> s45 [fontname="Times-Italic", label="&epsilon;"];
 }

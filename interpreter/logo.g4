@@ -7,7 +7,6 @@ prog
 line
    : cmd+ comment?
    | comment
-   | line_print comment?
    | procedureDeclaration
    ;
 
@@ -30,6 +29,7 @@ cmd
    | ife
    | stop
    | fore
+   | line_print
    ;
 
 procedureInvocation
@@ -53,7 +53,7 @@ repeat
    ;
 
 block
-   : '[' cmd + ']'
+   : '[' cmd+ ']'
    ;
 
 ife
@@ -65,9 +65,9 @@ comparison
    ;
 
 comparisonOperator
-   : '<'
-   | '>'
-   | '='
+   : LESS_
+   | MORE_
+   | EQUAL_
    ;
 
 make
@@ -79,7 +79,7 @@ line_print
    ;
 
 quotedstring
-   : '[' (quotedstring | ~ ']')* ']'
+   : '[' (quotedstring |~']')* ']'
    ;
 
 name
@@ -93,15 +93,15 @@ value
    ;
 
 signExpression
-   : (('+' | '-'))* (number | deref | func)
+   : ((ADD | SUB))* (number | deref | func)
    ;
 
 multiplyingExpression
-   : left=signExpression (op=('*' | '/') right=signExpression)*
+   : left=signExpression (op=(MUL | DIV) right=signExpression)*
    ;
 
 expression
-   : left=multiplyingExpression (op=('+' | '-') right=multiplyingExpression)*
+   : left=multiplyingExpression (op=(ADD | SUB) right=multiplyingExpression)*
    ;
 
 deref
@@ -181,6 +181,14 @@ comment
    : COMMENT
    ;
 
+MUL:'*';
+DIV:'/';
+ADD:'+';
+SUB:'-';
+
+LESS_ : '<';
+MORE_ : '>';
+EQUAL_ : '=';
 
 STRINGLITERAL
    : '"' STRING

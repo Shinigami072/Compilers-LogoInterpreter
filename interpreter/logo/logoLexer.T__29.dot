@@ -1,12 +1,16 @@
 digraph ATN {
 rankdir=LR;
 s60[fontsize=11, label="60", shape=doublecircle, fixedsize=true, width=.6];
-s209[fontsize=11,label="209", shape=circle, fixedsize=true, width=.55, peripheries=1];
-s210[fontsize=11,label="210", shape=circle, fixedsize=true, width=.55, peripheries=1];
-s211[fontsize=11,label="211", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s240[fontsize=11,label="240", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s241[fontsize=11,label="241", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s242[fontsize=11,label="242", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s243[fontsize=11,label="243", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s59[fontsize=11,label="59", shape=circle, fixedsize=true, width=.55, peripheries=1];
-s59 -> s209 [fontname="Times-Italic", label="&epsilon;"];
-s209 -> s210 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'p'", arrowhead = normal];
-s210 -> s211 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'d'", arrowhead = normal];
-s211 -> s60 [fontname="Times-Italic", label="&epsilon;"];
+s239[fontsize=11,label="239", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s59 -> s239 [fontname="Times-Italic", label="&epsilon;"];
+s239 -> s240 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'s'", arrowhead = normal];
+s240 -> s241 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'t'", arrowhead = normal];
+s241 -> s242 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'o'", arrowhead = normal];
+s242 -> s243 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'p'", arrowhead = normal];
+s243 -> s60 [fontname="Times-Italic", label="&epsilon;"];
 }

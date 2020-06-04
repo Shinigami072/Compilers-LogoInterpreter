@@ -1,12 +1,18 @@
 digraph ATN {
 rankdir=LR;
 s64[fontsize=11, label="64", shape=doublecircle, fixedsize=true, width=.6];
-s220[fontsize=11,label="220", shape=circle, fixedsize=true, width=.55, peripheries=1];
-s221[fontsize=11,label="221", shape=circle, fixedsize=true, width=.55, peripheries=1];
-s222[fontsize=11,label="222", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s250[fontsize=11,label="250", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s251[fontsize=11,label="251", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s252[fontsize=11,label="252", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s253[fontsize=11,label="253", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s254[fontsize=11,label="254", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s63[fontsize=11,label="63", shape=circle, fixedsize=true, width=.55, peripheries=1];
-s63 -> s220 [fontname="Times-Italic", label="&epsilon;"];
-s220 -> s221 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'h'", arrowhead = normal];
-s221 -> s222 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'t'", arrowhead = normal];
-s222 -> s64 [fontname="Times-Italic", label="&epsilon;"];
+s255[fontsize=11,label="255", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s63 -> s250 [fontname="Times-Italic", label="&epsilon;"];
+s250 -> s251 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'s'", arrowhead = normal];
+s251 -> s252 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'e'", arrowhead = normal];
+s252 -> s253 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'t'", arrowhead = normal];
+s253 -> s254 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'x'", arrowhead = normal];
+s254 -> s255 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'y'", arrowhead = normal];
+s255 -> s64 [fontname="Times-Italic", label="&epsilon;"];
 }

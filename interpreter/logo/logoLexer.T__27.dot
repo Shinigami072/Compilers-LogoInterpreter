@@ -1,12 +1,28 @@
 digraph ATN {
 rankdir=LR;
 s56[fontsize=11, label="56", shape=doublecircle, fixedsize=true, width=.6];
+s224[fontsize=11,label="224", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s225[fontsize=11,label="225", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s226[fontsize=11,label="226", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s227[fontsize=11,label="227", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s228[fontsize=11,label="228", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s229[fontsize=11,label="229", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s230[fontsize=11,label="230", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s231[fontsize=11,label="231", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s232[fontsize=11,label="232", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s233[fontsize=11,label="233", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s55[fontsize=11,label="55", shape=circle, fixedsize=true, width=.55, peripheries=1];
-s200[fontsize=11,label="200", shape=circle, fixedsize=true, width=.55, peripheries=1];
-s201[fontsize=11,label="201", shape=circle, fixedsize=true, width=.55, peripheries=1];
-s202[fontsize=11,label="202", shape=circle, fixedsize=true, width=.55, peripheries=1];
-s55 -> s200 [fontname="Times-Italic", label="&epsilon;"];
-s200 -> s201 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'p'", arrowhead = normal];
-s201 -> s202 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'u'", arrowhead = normal];
-s202 -> s56 [fontname="Times-Italic", label="&epsilon;"];
+s223[fontsize=11,label="223", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s55 -> s223 [fontname="Times-Italic", label="&epsilon;"];
+s223 -> s224 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'s'", arrowhead = normal];
+s224 -> s225 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'h'", arrowhead = normal];
+s225 -> s226 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'o'", arrowhead = normal];
+s226 -> s227 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'w'", arrowhead = normal];
+s227 -> s228 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'t'", arrowhead = normal];
+s228 -> s229 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'u'", arrowhead = normal];
+s229 -> s230 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'r'", arrowhead = normal];
+s230 -> s231 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'t'", arrowhead = normal];
+s231 -> s232 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'l'", arrowhead = normal];
+s232 -> s233 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'e'", arrowhead = normal];
+s233 -> s56 [fontname="Times-Italic", label="&epsilon;"];
 }

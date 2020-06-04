@@ -4,7 +4,13 @@ s18[fontsize=11, label="18", shape=doublecircle, fixedsize=true, width=.6];
 s17[fontsize=11,label="17", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s120[fontsize=11,label="120", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s121[fontsize=11,label="121", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s122[fontsize=11,label="122", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s123[fontsize=11,label="123", shape=circle, fixedsize=true, width=.55, peripheries=1];
+s124[fontsize=11,label="124", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s17 -> s120 [fontname="Times-Italic", label="&epsilon;"];
-s120 -> s121 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'<'", arrowhead = normal];
-s121 -> s18 [fontname="Times-Italic", label="&epsilon;"];
+s120 -> s121 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'m'", arrowhead = normal];
+s121 -> s122 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'a'", arrowhead = normal];
+s122 -> s123 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'k'", arrowhead = normal];
+s123 -> s124 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'e'", arrowhead = normal];
+s124 -> s18 [fontname="Times-Italic", label="&epsilon;"];
 }

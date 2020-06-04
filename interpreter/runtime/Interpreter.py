@@ -6,11 +6,19 @@ class Interpreter(ASTVisitor):
     def __init__(self, environment):
         self.environment = environment
 
-    def execute(self, program: PROGRAM):
+    def execute(self, program: Block):
         program.accept(self)
 
-    def visitProgram(self, program: PROGRAM):
-        for cmd in program.cmds:
+    def visitRepeat(self, repeat: Repeat):
+        for i in range(repeat.n):
+            self.visit(repeat.block)
+
+    def visitIf(self, if_e: If):
+        if self.visit(if_e.condition):
+            self.visit(if_e.block)
+
+    def visitBlock(self, block: Block):
+        for cmd in block.statements:
             self.visit(cmd)
 
     def pen(self, pen: PEN):
@@ -18,6 +26,45 @@ class Interpreter(ASTVisitor):
             self.environment.turtle.move_pencil_down()
         else:
             self.environment.turtle.move_pencil_up()
+
+    def visitConstant(self, constant: Constant):
+        return constant.value
+
+    def visitNumberUnaryOperator(self, number: NumberUnaryOperator):
+        if number.operator == NumberUnaryOperator.Operator.Neg.value:
+            return -self.visit(number.expression)
+        else:
+            raise ValueError("Unknown Operator")
+
+    def visitComparison(self, comparison: Comparison):
+
+        left = self.visit(comparison.left)
+        right = self.visit(comparison.right)
+
+        if comparison.operator == Comparison.Operator.Equal.value:
+            return left == right
+        elif comparison.operator == Comparison.Operator.Less.value:
+            return left < right
+        elif comparison.operator == Comparison.Operator.More.value:
+            return left > right
+        else:
+            raise ValueError("Unknown Operator")
+
+    def visitNumberBinaryOperator(self, number: NumberBinaryOperator):
+
+        left = self.visit(number.left)
+        right = self.visit(number.right)
+
+        if number.operator == NumberBinaryOperator.Operator.Div.value:
+            return left / right
+        elif number.operator == NumberBinaryOperator.Operator.Mul.value:
+            return left * right
+        elif number.operator == NumberBinaryOperator.Operator.Add.value:
+            return left + right
+        elif number.operator == NumberBinaryOperator.Operator.Sub.value:
+            return left - right
+        else:
+            raise ValueError("Unknown Operator")
 
     def visible(self, visibility: Visibility):
         self.environment.turtle.visible = visibility.status
@@ -39,20 +86,6 @@ class Interpreter(ASTVisitor):
         elif cmd.cmd == COMMAND.TURTLE_XY:
             self.environment.turtle.move_to((self.visit(cmd.arguments[0]), self.visit(cmd.arguments[1])))
 
-    def visitAdd(self, add: Add):
-        return self.visit(add.left) + self.visit(add.right)
-
-    def visitSub(self, sub: Sub):
-        return self.visit(sub.left) - self.visit(sub.right)
-
-    def visitMul(self, mul: Mul):
-        return self.visit(mul.left) * self.visit(mul.right)
-
-    def visitDiv(self, div: Div):
-        return self.visit(div.left) / self.visit(div.right)
-
-    def visitNeg(self, neg: NEG):
-        return -self.visit(neg.value)
-
-    def visitNumber(self, number: NUMBER):
-        return number.value
+    def visitPRINT(self, node: PRINT):
+        print(str(self.visit(node.value)))
+        return None

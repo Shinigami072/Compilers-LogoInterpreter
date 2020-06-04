@@ -33,7 +33,8 @@ class Statement:
 class Type(Enum):
     NUMBER = float,
     STRING = str,
-    BOOLEAN = bool
+    BOOLEAN = bool,
+    FUNCTION = "func"
 
 
 class Expression(Statement):

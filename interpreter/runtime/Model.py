@@ -1,5 +1,8 @@
+from __future__ import annotations
 import math
 import typing
+
+from interpreter.runtime.logo_ast import Type
 
 
 class Line:
@@ -71,10 +74,70 @@ class Turtle:
         )
 
 
+class Variable:
+    def __init__(self, name: str, type: Type, value):
+        self.name = name
+        self.type = type
+        self.value = value
+
+    def __str__(self):
+        return "Variable(%s,%s,%s)" % (self.name, self.type, self.value)
+
+    def __repr__(self):
+        return self.__str__()
+
+
+class Function(Variable):
+    def __init__(self, name: str, returnType: Type, arguments: typing.List[typing.Tuple[str, Type]], value):
+        super().__init__(name, Type.FUNCTION, value)
+        self.returnType = returnType
+        self.arguments = arguments
+
+    def check_arguments(self, *arguments: Variable):
+        if len(arguments) != len(self.arguments):
+            raise ValueError("Expected %d arguments got %d" % (len(self.arguments), len(arguments)))
+
+        for i, a in enumerate(arguments):
+            if self.arguments[i][1] != a.type:
+                raise ValueError("Argument %s is %s not %s" % (self.arguments[i][0], self.arguments[i][1], a.type))
+
+    def __str__(self):
+        return "Function(%s,%s)" % (self.name, self.arguments)
+
+    def __repr__(self):
+        return self.__str__()
+
+
+class Scope:
+    def __init__(self, name: str, parent: typing.Optional["Scope"] = None):
+        self.parent = parent
+        self.name = name
+        self.current: typing.Dict[str, Variable] = {}
+
+    def lookup(self, name: str) -> typing.Optional[Variable]:
+        value = self.current.get(name)
+        if value is not None:
+            return value
+        elif self.parent is not None:
+            return self.parent.lookup(name)
+        else:
+            return None
+
+    def insert(self, variable: Variable):
+        self.current[variable.name] = variable
+
+    def __str__(self):
+        return "Scope(%s,%s)={%s}" % (self.name, self.parent, self.current)
+
+    def __repr__(self):
+        return self.__str__()
+
+
 class Environment:
-    def __init__(self, width: float, height: float, turtle=None):
+    def __init__(self, width: float, height: float, turtle=None, current_scope=None):
         self.width = width
         self.height = height
         if turtle is None:
             turtle = Turtle(width / 2, height / 2)
         self.turtle = turtle
+        self.current_scope = current_scope

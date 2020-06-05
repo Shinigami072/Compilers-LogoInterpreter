@@ -49,7 +49,7 @@ func
    ;
 
 repeat
-   : 'repeat' number block
+   : 'repeat' n=expression block
    ;
 
 block
@@ -170,7 +170,7 @@ random
    ;
 
 fore
-   : 'for' '[' name expression expression expression ']' block
+   : 'for' '[' name from_e=expression to_e=expression step_e=expression ']' block
    ;
 
 number
@@ -201,7 +201,7 @@ STRING
 
 
 NUMBER
-   : [0-9]+
+   : [0-9]+ ([.][0-9]+)?
    ;
 
 

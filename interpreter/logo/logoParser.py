@@ -77,7 +77,7 @@ def serializedATN():
         buf.write("\u009a\u0098\3\2\2\2\u009b\u009e\3\2\2\2\u009c\u009a\3")
         buf.write("\2\2\2\u009c\u009d\3\2\2\2\u009d\r\3\2\2\2\u009e\u009c")
         buf.write("\3\2\2\2\u009f\u00a0\5F$\2\u00a0\17\3\2\2\2\u00a1\u00a2")
-        buf.write("\7\7\2\2\u00a2\u00a3\5J&\2\u00a3\u00a4\5\22\n\2\u00a4")
+        buf.write("\7\7\2\2\u00a2\u00a3\5(\25\2\u00a3\u00a4\5\22\n\2\u00a4")
         buf.write("\21\3\2\2\2\u00a5\u00a7\7\b\2\2\u00a6\u00a8\5\6\4\2\u00a7")
         buf.write("\u00a6\3\2\2\2\u00a8\u00a9\3\2\2\2\u00a9\u00a7\3\2\2\2")
         buf.write("\u00a9\u00aa\3\2\2\2\u00aa\u00ab\3\2\2\2\u00ab\u00ac\7")
@@ -942,13 +942,14 @@ class logoParser ( Parser ):
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
-
-        def number(self):
-            return self.getTypedRuleContext(logoParser.NumberContext,0)
-
+            self.n = None # ExpressionContext
 
         def block(self):
             return self.getTypedRuleContext(logoParser.BlockContext,0)
+
+
+        def expression(self):
+            return self.getTypedRuleContext(logoParser.ExpressionContext,0)
 
 
         def getRuleIndex(self):
@@ -980,7 +981,7 @@ class logoParser ( Parser ):
             self.state = 159
             self.match(logoParser.T__4)
             self.state = 160
-            self.number()
+            localctx.n = self.expression()
             self.state = 161
             self.block()
         except RecognitionException as re:
@@ -2546,9 +2547,16 @@ class logoParser ( Parser ):
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
+            self.from_e = None # ExpressionContext
+            self.to_e = None # ExpressionContext
+            self.step_e = None # ExpressionContext
 
         def name(self):
             return self.getTypedRuleContext(logoParser.NameContext,0)
+
+
+        def block(self):
+            return self.getTypedRuleContext(logoParser.BlockContext,0)
 
 
         def expression(self, i:int=None):
@@ -2556,10 +2564,6 @@ class logoParser ( Parser ):
                 return self.getTypedRuleContexts(logoParser.ExpressionContext)
             else:
                 return self.getTypedRuleContext(logoParser.ExpressionContext,i)
-
-
-        def block(self):
-            return self.getTypedRuleContext(logoParser.BlockContext,0)
 
 
         def getRuleIndex(self):
@@ -2595,11 +2599,11 @@ class logoParser ( Parser ):
             self.state = 274
             self.name()
             self.state = 275
-            self.expression()
+            localctx.from_e = self.expression()
             self.state = 276
-            self.expression()
+            localctx.to_e = self.expression()
             self.state = 277
-            self.expression()
+            localctx.step_e = self.expression()
             self.state = 278
             self.match(logoParser.T__6)
             self.state = 279

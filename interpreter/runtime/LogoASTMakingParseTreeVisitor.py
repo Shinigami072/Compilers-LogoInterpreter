@@ -24,6 +24,14 @@ class LogoASTMakingParseTreeVisitor(logoVisitor):
         else:
             raise ValueError("Unsupported Comparison")
 
+    def visitFore(self, ctx: logoParser.ForeContext):
+        block = self.visit(ctx.block())
+        to_e = self.visit(ctx.to_e)
+        from_e = self.visit(ctx.from_e)
+        step_e = self.visit(ctx.step_e)
+        name = ctx.name().getText()
+        return For(name, from_e, to_e, step_e, block)
+
     def visitIfe(self, ctx: logoParser.IfeContext) -> If:
         block = self.visit(ctx.block())
         condition = self.visit(ctx.comparison())
@@ -33,7 +41,7 @@ class LogoASTMakingParseTreeVisitor(logoVisitor):
         return Block([self.visit(cmd) for cmd in ctx.cmd()])
 
     def visitRepeat(self, ctx: logoParser.RepeatContext):
-        return Repeat(n=int(ctx.number().getText()), block=self.visit(ctx.block()))
+        return Repeat(n=self.visit(ctx.n), block=self.visit(ctx.block()))
 
     def visitLine_print(self, ctx: logoParser.Line_printContext) -> PRINT:
 
@@ -134,8 +142,14 @@ class LogoASTMakingParseTreeVisitor(logoVisitor):
                 num = NumberUnaryOperator(NumberUnaryOperator.Operator.Neg, num)
 
             return num
+        elif ctx.deref() is not None:
+            return self.visit(ctx.deref())
         else:
             raise NotImplementedError("Func and deref unimplemented")
+
+    def visitDeref(self, ctx: logoParser.DerefContext):
+        name = ctx.name().getText()
+        return Variable(Type.UNKNOWN, name)
 
     def visitValue(self, ctx: logoParser.ValueContext):
         expression = ctx.expression()
@@ -145,14 +159,21 @@ class LogoASTMakingParseTreeVisitor(logoVisitor):
             return self.visit(expression)
         elif str_literal is not None:
             return StringConstant(str_literal.getText()[1:])
+        elif ctx.deref() is not None:
+            return self.visit(ctx.deref())
         else:
-            raise NotImplementedError("deref unimplemented")
+            raise NotImplementedError("unimplemented")
 
     def visitQuotedstring(self, ctx: logoParser.QuotedstringContext) -> StringConstant:
         return StringConstant(ctx.getText()[1:-1])
 
     def visitNumber(self, ctx: logoParser.NumberContext) -> NumberConstant:
         return NumberConstant(float(ctx.NUMBER().getText()))
+
+    def visitMake(self, ctx: logoParser.MakeContext):
+        name = ctx.STRINGLITERAL().getText()[1:]
+        value: Expression = self.visit(ctx.value())
+        return Assign(name, value)
 
     def defaultResult(self) -> Optional[Statement]:
         return None

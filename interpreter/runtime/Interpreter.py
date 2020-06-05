@@ -14,11 +14,37 @@ class Interpreter(ASTVisitor):
         program.accept(self)
 
     def visitRepeat(self, repeat: Repeat):
+        n = round(self.visit(repeat.n))
         self.environment.push_scope("Repeat")
-        for i in range(repeat.n):
+        for i in range(n):
             self.environment.insert(Var(REPCOUNT, Type.NUMBER, i))
             self.visit(repeat.block)
-        self.environment.popScope()
+        self.environment.pop_scope()
+
+    def visitAssign(self, assign: Assign):
+        self.environment.insert(
+            Var(assign.name, assign.value.type, self.visit(assign.value))
+        )
+
+    def visitFor(self, for_e: For):
+        from_v = self.visit(for_e.from_v)
+        to_v = self.visit(for_e.to_v)
+        step_v = self.visit(for_e.step_v)
+
+        if from_v > to_v and step_v > 0:
+            raise ValueError("From value greater than to value with positive step")
+
+        if from_v < to_v and step_v < 0:
+            raise ValueError("From value less than to value with negative step")
+
+        if step_v == 0:
+            raise ValueError("Step Equal to 0")
+
+        self.environment.push_scope("For")
+        for i in [from_v + x * step_v for x in range(round((to_v - from_v) / step_v))]:
+            self.environment.insert(Var(for_e.name, Type.NUMBER, i))
+            self.visit(for_e.block)
+        self.environment.pop_scope()
 
     def visitIf(self, if_e: If):
         if self.visit(if_e.condition):
@@ -39,6 +65,16 @@ class Interpreter(ASTVisitor):
     def visitConstant(self, constant: Constant):
         return constant.value
 
+    def visitVariable(self, var: Variable):
+        got = self.environment.lookup(var.name)
+        if got is None:
+            raise ValueError("variable undefined")
+
+        if var.type != Type.UNKNOWN and got.type != var.type:
+            raise ValueError("variable %s is %s expected %s" % (var.name, got.type, var.type))
+
+        return got.value
+
     def visitNumberUnaryOperator(self, number: NumberUnaryOperator):
         if number.operator == NumberUnaryOperator.Operator.Neg.value:
             return -self.visit(number.expression)
@@ -46,7 +82,6 @@ class Interpreter(ASTVisitor):
             raise ValueError("Unknown Operator")
 
     def visitComparison(self, comparison: Comparison):
-
         left = self.visit(comparison.left)
         right = self.visit(comparison.right)
 
@@ -60,7 +95,6 @@ class Interpreter(ASTVisitor):
             raise ValueError("Unknown Operator")
 
     def visitNumberBinaryOperator(self, number: NumberBinaryOperator):
-
         left = self.visit(number.left)
         right = self.visit(number.right)
 

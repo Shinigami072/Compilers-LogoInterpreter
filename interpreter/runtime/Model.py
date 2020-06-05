@@ -1,4 +1,3 @@
-from __future__ import annotations
 import math
 import typing
 
@@ -156,8 +155,8 @@ class Environment:
         if self.current_scope is not None:
             self.current_scope = self.current_scope.parent
 
-    def lookup(self, name):
-        self.current_scope.lookup(name)
+    def lookup(self, name) -> typing.Optional[Var]:
+        return self.current_scope.lookup(name)
 
     def insert(self, var: Var):
         self.current_scope.insert(var)

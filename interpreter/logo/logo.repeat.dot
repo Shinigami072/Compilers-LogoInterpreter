@@ -8,7 +8,7 @@ s14[fontsize=11,label="14", shape=circle, fixedsize=true, width=.55, peripheries
 s159[fontsize=11,label="159", shape=circle, fixedsize=true, width=.55, peripheries=1];
 s14 -> s159 [fontname="Times-Italic", label="&epsilon;"];
 s159 -> s160 [fontsize=11, fontname="Courier", arrowsize=.7, label = "'repeat'", arrowhead = normal];
-s160 -> s161 [fontsize=11, fontname="Courier", arrowsize=.7, label = "<number>", arrowhead = normal];
+s160 -> s161 [fontsize=11, fontname="Courier", arrowsize=.7, label = "<expression>", arrowhead = normal];
 s161 -> s162 [fontsize=11, fontname="Courier", arrowsize=.7, label = "<block>", arrowhead = normal];
 s162 -> s15 [fontname="Times-Italic", label="&epsilon;"];
 }

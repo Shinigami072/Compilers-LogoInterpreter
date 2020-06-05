@@ -34,7 +34,8 @@ class Type(Enum):
     NUMBER = float,
     STRING = str,
     BOOLEAN = bool,
-    FUNCTION = "func"
+    FUNCTION = "func",
+    UNKNOWN = "UNKNOWN"
 
 
 class Expression(Statement):
@@ -123,6 +124,11 @@ class NumberUnaryOperator(UnaryOperator):
         Neg = "-"
 
     def __init__(self, operator: Operator, expression: Expression):
+        # Adding missing type information
+        if expression.type == Type.UNKNOWN:
+            expression.type = Type.NUMBER
+
+        # Type Checking
         if expression.type != Type.NUMBER:
             raise ValueError(expression, "Expected a number Expression")
         super().__init__(Type.NUMBER, operator.value, expression)
@@ -136,6 +142,14 @@ class NumberBinaryOperator(BinaryOperator):
         Add = "+"
 
     def __init__(self, operator: Operator, left: Expression, right: Expression):
+        # Adding missing type information
+        if left.type == Type.UNKNOWN:
+            left.type = Type.NUMBER
+
+        if right.type == Type.UNKNOWN:
+            right.type = Type.NUMBER
+
+        # Type checking
         if left.type != Type.NUMBER:
             raise ValueError(left, "Expected a number expression")
 
@@ -152,6 +166,13 @@ class Comparison(BinaryOperator):
         Equal = "=",
 
     def __init__(self, operator: Operator, left: Expression, right: Expression):
+        # Adding missing type information
+        if left.type == Type.UNKNOWN:
+            left.type = Type.NUMBER
+
+        if right.type == Type.UNKNOWN:
+            right.type = Type.NUMBER
+
         if left.type != Type.NUMBER:
             raise ValueError(left, "Expected a number expression")
 
@@ -220,25 +241,80 @@ class PRINT(Statement):
         self.value = value
 
 
+class Assign(Statement):
+    def __init__(self, name: str, value: Expression):
+        super().__init__()
+        self.name = name
+        self.value = value
+
+    def __str__(self):
+        return "A(%s=%s)" % (self.name, self.value)
+
+
 class Block(Statement):
     def __init__(self, statements: List[Statement]):
         self.statements = statements
 
     def __str__(self):
-        return "[\n" + "\n".join([str(s) for s in self.statements]) + "\n]"
+        return "[\n" + "\n".join([Block._toIndentedString(s) for s in self.statements]) + "\n]"
 
     def __repr__(self):
         return self.__str__()
 
+    @classmethod
+    def _toIndentedString(cls, s: Statement):
+        return "\t" + "\n\t".join(str(s).splitlines()) + "\n"
+
 
 class Repeat(Statement):
-    def __init__(self, n: int, block: Block):
+    def __init__(self, n: Expression, block: Block):
+
+        if n.type == Type.UNKNOWN:
+            n.type = Type.NUMBER
+
+        if n.type != Type.NUMBER:
+            raise ValueError("N should have type number")
         super().__init__()
         self.n = n
         self.block = block
 
     def __str__(self):
-        return "REPEAT(%d)\n%s" % (self.n, self.block)
+        return "REPEAT(%s)\n%s" % (self.n, Block._toIndentedString(self.block))
+
+    def __repr__(self):
+        return self.__str__()
+
+
+class For(Statement):
+    def __init__(self, name: str, from_v: Expression, to_v: Expression, step_v: Expression, block: Block):
+        # Adding missing type information
+        if from_v.type == Type.UNKNOWN:
+            from_v.type = Type.NUMBER
+
+        if to_v.type == Type.UNKNOWN:
+            to_v.type = Type.NUMBER
+
+        if step_v.type == Type.UNKNOWN:
+            step_v.type = Type.NUMBER
+
+        if to_v.type != Type.NUMBER:
+            raise ValueError(to_v, "Expected a number expression")
+
+        if from_v.type != Type.NUMBER:
+            raise ValueError(from_v, "Expected a number expression")
+
+        if step_v.type != Type.NUMBER:
+            raise ValueError(from_v, "Expected a number expression")
+
+        self.name = name
+        self.block = block
+        self.step_v = step_v
+        self.from_v = from_v
+        self.to_v = to_v
+
+    def __str__(self):
+        return "For(%s = %s; < %s += %s)\n%s" % (
+            self.name, self.from_v, self.to_v, self.step_v, Block._toIndentedString(self.block))
 
     def __repr__(self):
         return self.__str__()
@@ -247,6 +323,9 @@ class Repeat(Statement):
 class If(Statement):
     def __init__(self, condition: Expression, block: Block):
         super().__init__()
+        # Adding missing type information
+        if condition.type == Type.UNKNOWN:
+            condition.type = Type.BOOLEAN
 
         if condition.type != Type.BOOLEAN:
             raise ValueError("Boolean expresion expected")
@@ -255,7 +334,7 @@ class If(Statement):
         self.block = block
 
     def __str__(self):
-        return "IF(%s)\n%s" % (self.condition, self.block)
+        return "IF(%s)\n%s" % (self.condition, Block._toIndentedString(self.block))
 
     def __repr__(self):
         return self.__str__()

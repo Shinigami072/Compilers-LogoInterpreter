@@ -74,10 +74,10 @@ class Turtle:
         )
 
 
-class Variable:
-    def __init__(self, name: str, type: Type, value):
+class Var:
+    def __init__(self, name: str, var_type: Type, value):
         self.name = name
-        self.type = type
+        self.type = var_type
         self.value = value
 
     def __str__(self):
@@ -87,13 +87,13 @@ class Variable:
         return self.__str__()
 
 
-class Function(Variable):
+class Function(Var):
     def __init__(self, name: str, returnType: Type, arguments: typing.List[typing.Tuple[str, Type]], value):
         super().__init__(name, Type.FUNCTION, value)
         self.returnType = returnType
         self.arguments = arguments
 
-    def check_arguments(self, *arguments: Variable):
+    def check_arguments(self, *arguments: Var):
         if len(arguments) != len(self.arguments):
             raise ValueError("Expected %d arguments got %d" % (len(self.arguments), len(arguments)))
 
@@ -112,9 +112,9 @@ class Scope:
     def __init__(self, name: str, parent: typing.Optional["Scope"] = None):
         self.parent = parent
         self.name = name
-        self.current: typing.Dict[str, Variable] = {}
+        self.current: typing.Dict[str, Var] = {}
 
-    def lookup(self, name: str) -> typing.Optional[Variable]:
+    def lookup(self, name: str) -> typing.Optional[Var]:
         value = self.current.get(name)
         if value is not None:
             return value
@@ -123,7 +123,7 @@ class Scope:
         else:
             return None
 
-    def insert(self, variable: Variable):
+    def insert(self, variable: Var):
         self.current[variable.name] = variable
 
     def __str__(self):
@@ -134,10 +134,30 @@ class Scope:
 
 
 class Environment:
-    def __init__(self, width: float, height: float, turtle=None, current_scope=None):
+    def __init__(self, width: float, height: float, turtle=None, current_scope: Scope = Scope("BuiltIn")):
         self.width = width
         self.height = height
         if turtle is None:
             turtle = Turtle(width / 2, height / 2)
-        self.turtle = turtle
-        self.current_scope = current_scope
+        self.turtle: Turtle = turtle
+        self.current_scope: Scope = current_scope
+        self.build_in_scope: Scope = current_scope
+
+    def push_scope(self, name: str):
+        name = name \
+            if self.current_scope is None or self.current_scope is self.build_in_scope \
+            else self.current_scope.name + "-" + name
+
+        self.current_scope = Scope(
+            name,
+            parent=self.current_scope)
+
+    def pop_scope(self):
+        if self.current_scope is not None:
+            self.current_scope = self.current_scope.parent
+
+    def lookup(self, name):
+        self.current_scope.lookup(name)
+
+    def insert(self, var: Var):
+        self.current_scope.insert(var)

@@ -1,21 +1,30 @@
+from interpreter.runtime.Model import Var
 from interpreter.runtime.logo_ast import *
 from interpreter.runtime.logo_ast_visitor import ASTVisitor
+
+REPCOUNT = "REPCOUNT"
 
 
 class Interpreter(ASTVisitor):
     def __init__(self, environment):
         self.environment = environment
+        self.environment.insert(Var(REPCOUNT, Type.NUMBER, -1))
 
     def execute(self, program: Block):
         program.accept(self)
 
     def visitRepeat(self, repeat: Repeat):
+        self.environment.push_scope("Repeat")
         for i in range(repeat.n):
+            self.environment.insert(Var(REPCOUNT, Type.NUMBER, i))
             self.visit(repeat.block)
+        self.environment.popScope()
 
     def visitIf(self, if_e: If):
         if self.visit(if_e.condition):
+            self.environment.push_scope("If")
             self.visit(if_e.block)
+            self.environment.pop_scope()
 
     def visitBlock(self, block: Block):
         for cmd in block.statements:
